@@ -31,7 +31,7 @@ class VectorStore:
         return response.data
 
     @staticmethod
-    def search_similar(embedding: List[float], limit: int = 5, threshold: float = 0.5, filter: Dict[str, Any] = None) -> List[Dict[str, Any]]:
+    def search_similar(embedding: List[float], limit: int = 5, threshold: float = 0.3, filter: Dict[str, Any] = None) -> List[Dict[str, Any]]:
         """
         Performs vector similarity search via the 'match_documents' RPC function.
         """
