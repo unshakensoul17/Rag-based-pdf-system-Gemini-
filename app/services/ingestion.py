@@ -19,15 +19,10 @@ class IngestionService:
         
         # 2. Generate Hash to check for duplicates
         file_hash = hashlib.sha256(content).hexdigest()
-        if VectorStore.check_duplicate(file_hash):
-             # Depending on requirements, we could return existing ID or error.
-             # For now, let's just return a specific message or handle it.
-             # But here assuming we just want to re-process or return existing check is expensive? 
-             # Let's simple Check duplicate returns bool.
-             # Ideally we should get the ID if it exists. 
-             # For simplicity, if duplicate, we raise an exception or handling logic.
-             # Let's raise an exception for now to inform user.
-             raise HTTPException(status_code=409, detail="Document already exists.")
+        existing_id = VectorStore.check_duplicate(file_hash)
+        if existing_id:
+             # Document already exists, return the existing ID
+             return existing_id
 
         # 3. Extract Text
         try:

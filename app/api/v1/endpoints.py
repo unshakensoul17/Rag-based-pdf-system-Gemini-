@@ -45,7 +45,7 @@ async def query_documents(request: QueryRequest):
         query_embedding = EmbeddingService.get_query_embedding(request.query)
         
         # 2. Search Similar Chunks
-        results = VectorStore.search_similar(query_embedding, limit=request.limit)
+        results = VectorStore.search_similar(query_embedding, limit=request.limit, filter=request.filters)
         
         # 3. Construct Context
         # Flatten context

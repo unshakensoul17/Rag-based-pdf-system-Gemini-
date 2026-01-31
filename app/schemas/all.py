@@ -9,6 +9,7 @@ class IngestResponse(BaseModel):
 class QueryRequest(BaseModel):
     query: str
     limit: int = 5
+    filters: Dict[str, Any] = None
 
 class Source(BaseModel):
     id: str

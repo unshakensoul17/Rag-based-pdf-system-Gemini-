@@ -31,22 +31,26 @@ class VectorStore:
         return response.data
 
     @staticmethod
-    def search_similar(embedding: List[float], limit: int = 5, threshold: float = 0.5) -> List[Dict[str, Any]]:
+    def search_similar(embedding: List[float], limit: int = 5, threshold: float = 0.5, filter: Dict[str, Any] = None) -> List[Dict[str, Any]]:
         """
         Performs vector similarity search via the 'match_documents' RPC function.
         """
         params = {
             "query_embedding": embedding,
             "match_threshold": threshold,
-            "match_count": limit
+            "match_count": limit,
+            "filter_document_id": filter.get("document_id") if filter else None
         }
         response = supabase.rpc("match_documents", params).execute()
         return response.data
 
     @staticmethod
-    def check_duplicate(upload_hash: str) -> bool:
+    def check_duplicate(upload_hash: str) -> str:
         """
         Checks if a document with the same hash already exists.
+        Returns the document ID if found, else None.
         """
         response = supabase.table("documents").select("id").eq("upload_hash", upload_hash).execute()
-        return len(response.data) > 0
+        if response.data and len(response.data) > 0:
+            return response.data[0]['id']
+        return None
