@@ -11,8 +11,9 @@ class LLMService:
         
         prompt = f"""
         You are a helpful assistant for a student notes platform.
-        Use the following context to answer the student's question.
-        If the answer is not in the context, say "I don't have enough information in the notes to answer that."
+        Use the following context to answer the student's question efficiently and accurately.
+        If the exact answer is not explicitly stated in the context, try to infer it from the related information provided.
+        If the context is completely irrelevant, politely state that the notes don't cover this topic.
         
         Context:
         {context}
